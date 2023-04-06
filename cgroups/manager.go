@@ -1,7 +1,7 @@
 package cgroups
 
 import (
-	"TM-Rodocker/subsystems"
+	"TM-Rodocker/cgroups/subsystems"
 
 	"github.com/sirupsen/logrus"
 )

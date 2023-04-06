@@ -15,14 +15,14 @@ func main() {
 
 	// 提供的命令列表
 	app.Commands = []cli.Command{
-		initCommand,
 		runCommand,
+		initCommand,
 	}
 
 	// 在命令执行前，设置日志格式
 	app.Before = func(context *cli.Context) error {
 		log.SetFormatter(&log.JSONFormatter{})
-
+		log.SetReportCaller(true)
 		log.SetOutput(os.Stdout)
 		return nil
 	}
