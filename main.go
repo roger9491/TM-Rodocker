@@ -17,6 +17,7 @@ func main() {
 	app.Commands = []cli.Command{
 		runCommand,
 		initCommand,
+		commitCommand,
 	}
 
 	// 在命令执行前，设置日志格式

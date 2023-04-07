@@ -3,7 +3,6 @@ package main
 import (
 	"TM-Rodocker/cgroups/subsystems"
 	"TM-Rodocker/container"
-	"errors"
 	"fmt"
 
 	log "github.com/sirupsen/logrus"
@@ -31,11 +30,7 @@ var runCommand = cli.Command{
 
 	Action: func(context *cli.Context) error {
 		if len(context.Args()) < 1 {
-			err := errors.New("An error occurred")
-			log.Error(err)
-
-			// 返回 error 结构
-			return err
+			return fmt.Errorf("Missing container name")
 		}
 
 		// 命令參數串列
@@ -44,7 +39,6 @@ var runCommand = cli.Command{
 			cmdArray = append(cmdArray, arg)
 		}
 		fmt.Println("cmdArray is ", cmdArray)
-		
 
 		resConf := &subsystems.ResourceConfig{
 			MemoryLimit: context.String("m"), // 從 指標m 獲取值
@@ -72,5 +66,19 @@ var initCommand = cli.Command{
 		log.Infof("command %s", cmd)
 		err := container.RunContainerInitProcess(cmd, nil)
 		return err
+	},
+}
+
+// commit 命令
+var commitCommand = cli.Command{
+	Name:  "commit",
+	Usage: "commit a container into image",
+	Action: func(context *cli.Context) error {
+		if len(context.Args()) < 2 {
+			return fmt.Errorf("Missing container name")
+		}
+		imageName := context.Args().Get(0)
+		commitContainer(imageName)
+		return nil
 	},
 }
